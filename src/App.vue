@@ -1,34 +1,26 @@
 <template>
-  <img src="./assets/logo.png" />
-  <div>
-    <p>
-      If Element Plus is successfully added to this project, you'll see an
-      <code v-text="'<el-button>'"></code>
-      below
-    </p>
-    <el-button type="primary">el-button</el-button>
-  </div>
-  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <el-header> &gt; <span style="color: #409eff">izba</span>Docs </el-header>
+  <el-main style="min-height: calc(100vh - 120px)">
+    <router-view></router-view>
+  </el-main>
+  <el-footer style="font-size: var(--el-font-size-extra-small)">
+    &copy; 2021 PK
+  </el-footer>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
 export default {
   name: "App",
-  components: {
-    HelloWorld,
-  },
+  components: {},
 };
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #303133;
 }
 </style>
