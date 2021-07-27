@@ -1,6 +1,6 @@
 <template>
-  <el-row>
-    <el-col :offset="20" :span="4">
+  <el-row justify="end">
+    <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" :md="{ span: 6 }">
       <el-input placeholder="Filter" v-model="query"></el-input>
     </el-col>
   </el-row>
@@ -21,16 +21,23 @@
               :gutter="16"
               style="margin-top: 2em"
             >
-              <el-col :span="8" style="font-size: var(--el-font-size-medium)">
-                <i class="el-icon-document"></i> {{ title }}
+              <el-col
+                :xs="{ span: 24 }"
+                :sm="{ span: 12 }"
+                style="font-size: var(--el-font-size-medium); margin-top: 1em"
+              >
+                <el-link :href="file" icon="el-icon-document">{{
+                  title
+                }}</el-link>
               </el-col>
-              <el-col :span="14" style="text-align: right">
+              <el-col
+                :xs="{ span: 24 }"
+                :sm="{ span: 6 }"
+                style="margin-top: 1em"
+              >
                 <el-tag v-for="tag in tags" :key="tag" size="small">{{
                   tag
                 }}</el-tag>
-              </el-col>
-              <el-col :span="2">
-                <el-link :href="file" icon="el-icon-download">Download</el-link>
               </el-col>
               <el-col v-if="description.length" style="margin-top: 1em">
                 <i class="el-icon-info"></i> {{ description }}

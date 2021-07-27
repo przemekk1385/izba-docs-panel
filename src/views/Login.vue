@@ -1,6 +1,6 @@
 <template>
   <el-row class="row-bg" justify="center">
-    <el-col :span="8">
+    <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" :md="{ span: 8 }">
       <el-form
         ref="loginForm"
         :model="loginForm"
@@ -57,7 +57,7 @@ export default {
       await this.login({ username, password });
 
       if (this.isAuthenticated) {
-        this.$router.push({ name: "List" });
+        this.$router.push({ name: "Event" });
       } else {
         this.$notify.error({
           title: "Error",

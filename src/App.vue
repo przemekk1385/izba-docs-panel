@@ -1,19 +1,30 @@
 <template>
   <el-header>
-    <el-row>
-      <el-col :span="12"
-        >&gt; <span style="color: #409eff">izba</span>Docs</el-col
-      >
-      <el-col :span="12" style="text-align: right"
-        ><el-button
-          v-if="isAuthenticated"
+    <el-container style="justify-content: space-between">
+      <div style="display: inherit; align-items: center">
+        &gt;<span style="color: #409eff">izba</span>Docs
+      </div>
+      <div v-if="isAuthenticated" style="display: inherit; align-items: center">
+        <el-dropdown trigger="click" @command="handleCommand">
+          <span class="el-dropdown-link">
+            View<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="Document">Documents</el-dropdown-item>
+              <el-dropdown-item command="Event">Events</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+        <el-button
           type="primary"
           icon="el-icon-switch-button"
           circle
           @click="logout"
-        ></el-button
-      ></el-col>
-    </el-row>
+          style="margin-left: 1em"
+        ></el-button>
+      </div>
+    </el-container>
   </el-header>
   <el-main style="min-height: calc(100vh - 120px)">
     <router-view></router-view>
@@ -43,6 +54,9 @@ export default {
   },
   methods: {
     ...mapActions({ logout: "logout" }),
+    handleCommand(command) {
+      this.$router.push({ name: command });
+    },
   },
 };
 </script>
