@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :offset="20" :span="4">
-      <el-input placeholder="Filtruj" v-model="query"></el-input>
+      <el-input placeholder="Filter" v-model="query"></el-input>
     </el-col>
   </el-row>
   <el-row>
@@ -30,7 +30,7 @@
                 }}</el-tag>
               </el-col>
               <el-col :span="2">
-                <el-link :href="file" icon="el-icon-download">Pobierz</el-link>
+                <el-link :href="file" icon="el-icon-download">Download</el-link>
               </el-col>
               <el-col v-if="description.length" style="margin-top: 1em">
                 <i class="el-icon-info"></i> {{ description }}
@@ -38,8 +38,8 @@
             </el-row>
           </template>
         </el-table-column>
-        <el-table-column label="Data" prop="day" sortable> </el-table-column>
-        <el-table-column label="Tytuł" prop="title"> </el-table-column>
+        <el-table-column label="Day" prop="day" sortable> </el-table-column>
+        <el-table-column label="Title" prop="title"> </el-table-column>
       </el-table>
     </el-col>
   </el-row>
