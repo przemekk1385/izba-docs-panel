@@ -46,60 +46,15 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "Home",
   components: {},
   data() {
     return {
       query: undefined,
-      tableData: [
-        {
-          id: 2,
-          title: "113 posiedzenie Zarządu Izby",
-          day: "2017-01-23",
-          summary:
-            "113 posiedzenie Zarządu odbyło się 23 stycznia 2018 r. Podczas posiedzenia omówiono m.in strukturę finansów i rozliczeń Izby, przyjęto harmonogram organizacji seminariów, omówiono przyjęcie Regulaminu Zarządu oraz omówiono ofertę ubezpieczeń.",
-          documents: [
-            {
-              id: 1,
-              file: "http://127.0.0.1:8000/docs/9de47ce2-ac23-4620-a9ef-88a9b3ab47f1.pdf",
-              title: "Protokół",
-              description: "spam spam spam spam spam",
-              tags: ["protokół"],
-            },
-            {
-              id: 2,
-              file: "http://127.0.0.1:8000/docs/9de47ce2-ac23-4620-a9ef-88a9b3ab47f1.pdf",
-              title: "Uchwała",
-              description: "",
-              tags: ["uchwała"],
-            },
-          ],
-        },
-        {
-          id: 1,
-          title: "112 posiedzenie Zarządu Izby",
-          day: "2017-01-23",
-          summary:
-            "112 posiedzenie Zarządu odbyło się 23 stycznia 2017 r. Podczas posiedzenia omówiono m.in strukturę finansów i rozliczeń Izby, przyjęto harmonogram organizacji seminariów, omówiono przyjęcie Regulaminu Zarządu oraz omówiono ofertę ubezpieczeń.",
-          documents: [
-            {
-              id: 1,
-              file: "http://127.0.0.1:8000/docs/9de47ce2-ac23-4620-a9ef-88a9b3ab47f1.pdf",
-              title: "Protokół",
-              description: "spam spam spam spam spam",
-              tags: ["protokół"],
-            },
-            {
-              id: 2,
-              file: "http://127.0.0.1:8000/docs/9de47ce2-ac23-4620-a9ef-88a9b3ab47f1.pdf",
-              title: "Uchwała",
-              description: "",
-              tags: ["uchwała"],
-            },
-          ],
-        },
-      ],
+      tableData: [],
     };
   },
   computed: {
@@ -115,6 +70,14 @@ export default {
         return this.tableData;
       }
     },
+  },
+  async mounted() {
+    const tableData = await this.eventList();
+
+    this.tableData = tableData;
+  },
+  methods: {
+    ...mapActions({ eventList: "eventList" }),
   },
 };
 </script>
