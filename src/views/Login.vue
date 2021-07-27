@@ -50,7 +50,9 @@ export default {
   methods: {
     ...mapActions({ login: "login" }),
     async submitLoginForm() {
-      const { username, password } = this;
+      const {
+        loginForm: { username, password },
+      } = this;
 
       await this.login({ username, password });
 
