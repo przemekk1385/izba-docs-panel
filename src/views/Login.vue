@@ -42,10 +42,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ isAuthenticated: "isAuthenticated" }),
-    errorMessage() {
-      return this.$store.state.errorMessage;
-    },
+    ...mapGetters({
+      errorMessage: "errorMessage",
+      isAuthenticated: "isAuthenticated",
+    }),
   },
   methods: {
     ...mapActions({ login: "login" }),

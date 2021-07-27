@@ -8,6 +8,7 @@ export default createStore({
     token: undefined,
   },
   getters: {
+    errorMessage: ({ errorMessage }) => errorMessage,
     headers: ({ token }) => ({ headers: { Authorization: `Token ${token}` } }),
     isAuthenticated: ({ token }) => !!token,
   },
