@@ -32,15 +32,12 @@ export default createStore({
         );
         const { data: { token } = {} } = tokenPromise;
         commit("token", token);
-      } catch ({ response: { data, status } }) {
+      } catch ({ response: { status } }) {
         commit("errorMessage", `Login failed, got ${status} response code.`);
       }
     },
     logout({ commit }) {
       commit("token", undefined);
-    },
-    wipeErrorMessage({ commit }) {
-      commit("errorMessage", undefined);
     },
   },
   modules: {},
