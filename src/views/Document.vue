@@ -1,52 +1,43 @@
 <template>
-  <el-row justify="end">
-    <el-col :xs="{ span: 24 }" :sm="{ span: 12 }" :md="{ span: 6 }">
-      <el-input placeholder="Filter" v-model="query"></el-input>
-    </el-col>
-  </el-row>
   <el-row>
     <el-col>
       <el-table
         ref="table"
-        :data="filteredTableData"
-        :default-sort="{ prop: 'day', order: 'descending' }"
+        :data="tableData"
+        :default-sort="{ prop: 'event', order: 'descending' }"
       >
         <el-table-column type="expand">
           <template #default="props">
-            <p>{{ props.row.summary }}</p>
-            <el-row
-              v-for="{ id, file, title, description, tags } in props.row
-                .documents"
-              :key="id"
-              :gutter="16"
-              style="margin-top: 2em"
-            >
-              <el-col
-                :xs="{ span: 24 }"
-                :sm="{ span: 12 }"
-                style="font-size: var(--el-font-size-medium); margin-top: 1em"
-              >
-                <el-link :href="file" icon="el-icon-document">{{
-                  title
-                }}</el-link>
-              </el-col>
-              <el-col
-                :xs="{ span: 24 }"
-                :sm="{ span: 6 }"
-                style="margin-top: 1em"
-              >
-                <el-tag v-for="tag in tags" :key="tag" size="small">{{
-                  tag
-                }}</el-tag>
-              </el-col>
-              <el-col v-if="description.length" style="margin-top: 1em">
-                <i class="el-icon-info"></i> {{ description }}
-              </el-col>
-            </el-row>
+            <p>{{ props.row.description || "---" }}</p>
           </template>
         </el-table-column>
-        <el-table-column label="Day" prop="day" sortable> </el-table-column>
+        <el-table-column label="Event" prop="event" sortable>
+          <template #default="{ row: { event } }">
+            <el-tooltip :content="event" placement="top" effect="light">
+              <span>{{ truncate(event) }}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="Title" prop="title"> </el-table-column>
+        <el-table-column
+          :filters="tagFilters"
+          :filter-method="filterTag"
+          filter-placement="bottom-end"
+          fixed="right"
+          label="Tags"
+          width="100px"
+        >
+          <template #default="{ row: { tags } }">
+            <el-tag v-for="tag in tags" :key="tag" size="small">{{
+              tag
+            }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="Actions" width="120px">
+          <template #default="{ row: { file } }">
+            <el-link :href="file" type="primary"> Download </el-link>
+          </template>
+        </el-table-column>
       </el-table>
     </el-col>
   </el-row>
@@ -62,6 +53,7 @@ export default {
     return {
       query: undefined,
       tableData: [],
+      tagFilters: [],
     };
   },
   computed: {
@@ -79,12 +71,20 @@ export default {
     },
   },
   async mounted() {
-    const tableData = await this.eventList();
+    const tableData = await this.documentList();
+    const tagList = await this.tagList();
 
     this.tableData = tableData;
+    this.tagFilters = tagList.map((tag) => ({ text: tag, value: tag }));
   },
   methods: {
-    ...mapActions({ eventList: "eventList" }),
+    ...mapActions({ documentList: "documentList", tagList: "tagList" }),
+    filterTag(value, { tags }) {
+      return tags.indexOf(value) !== -1;
+    },
+    truncate(text) {
+      return `${text.substr(0, 9)}…`;
+    },
   },
 };
 </script>

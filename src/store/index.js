@@ -21,6 +21,22 @@ export default createStore({
     },
   },
   actions: {
+    async documentList({ commit, getters }) {
+      try {
+        const documentListPromise = await axios.get(
+          `${process.env.VUE_APP_API_HOST}/api/v1/document/`,
+          getters.headers
+        );
+        const { data = [] } = documentListPromise;
+        return data;
+      } catch ({ response: { data, status } }) {
+        commit(
+          "errorMessage",
+          `Failed to get documents, got ${status} response code.`
+        );
+        return [];
+      }
+    },
     async eventList({ commit, getters }) {
       try {
         const eventListPromise = await axios.get(
@@ -32,7 +48,24 @@ export default createStore({
       } catch ({ response: { data, status } }) {
         commit(
           "errorMessage",
-          `Nie udało się pobrać godzin. Kod błędu ${status}.`
+          `Failed to get events, got ${status} response code.`
+        );
+        return [];
+      }
+    },
+    async tagList({ commit, getters }) {
+      try {
+        const tagListPromise = await axios.get(
+          `${process.env.VUE_APP_API_HOST}/api/v1/tag/`,
+          getters.headers
+        );
+        const { data = [] } = tagListPromise;
+
+        return data.map(({ text }) => text);
+      } catch ({ response: { data, status } }) {
+        commit(
+          "errorMessage",
+          `Failed to get tags, got ${status} response code.`
         );
         return [];
       }
