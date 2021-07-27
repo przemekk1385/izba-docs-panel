@@ -21,6 +21,22 @@ export default createStore({
     },
   },
   actions: {
+    async eventList({ commit, getters }) {
+      try {
+        const eventListPromise = await axios.get(
+          `${process.env.VUE_APP_API_HOST}/api/v1/event/`,
+          getters.headers
+        );
+        const { data = [] } = eventListPromise;
+        return data;
+      } catch ({ response: { data, status } }) {
+        commit(
+          "errorMessage",
+          `Nie udało się pobrać godzin. Kod błędu ${status}.`
+        );
+        return [];
+      }
+    },
     async login({ commit }, { username, password }) {
       try {
         const tokenPromise = await axios.post(
