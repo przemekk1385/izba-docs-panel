@@ -37,6 +37,29 @@ export default createStore({
         return [];
       }
     },
+    async documentServe({ commit, getters }, documentUrl) {
+      try {
+        const documentPromise = await axios.get(
+          documentUrl,
+          Object.assign({}, getters.headers, {
+            responseType: "blob",
+          })
+        );
+        const { data } = documentPromise;
+
+        const type = {
+          pdf: "application/pdf",
+        }[documentUrl.split(".").slice(-1).pop()];
+        const blob = new Blob([data], { type });
+
+        return blob;
+      } catch ({ response: { data, status } }) {
+        commit(
+          "errorMessage",
+          `Failed to get document, got ${status} response code.`
+        );
+      }
+    },
     async eventList({ commit, getters }) {
       try {
         const eventListPromise = await axios.get(
