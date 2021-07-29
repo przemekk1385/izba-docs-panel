@@ -14,33 +14,29 @@
         <el-table-column type="expand">
           <template #default="props">
             <p>{{ props.row.summary }}</p>
+            <el-divider> </el-divider>
             <el-row
               v-for="{ id, file, title, description, tags } in props.row
                 .documents"
               :key="id"
               :gutter="16"
-              style="margin-top: 2em"
+              style="margin-bottom: 1em"
             >
-              <el-col
-                :xs="{ span: 24 }"
-                :sm="{ span: 12 }"
-                style="font-size: var(--el-font-size-medium); margin-top: 1em"
-              >
-                <el-link :href="file" icon="el-icon-document">{{
-                  title
-                }}</el-link>
+              <el-col style="font-size: var(--el-font-size-medium)">
+                <el-space wrap>
+                  <el-button
+                    icon="el-icon-document"
+                    @click="getDocument(file)"
+                    :loading="loading[file]"
+                    >{{ title }}</el-button
+                  >
+                  <el-tag v-for="tag in tags" :key="tag" size="small">{{
+                    tag
+                  }}</el-tag>
+                </el-space>
               </el-col>
-              <el-col
-                :xs="{ span: 24 }"
-                :sm="{ span: 6 }"
-                style="margin-top: 1em"
-              >
-                <el-tag v-for="tag in tags" :key="tag" size="small">{{
-                  tag
-                }}</el-tag>
-              </el-col>
-              <el-col v-if="description.length" style="margin-top: 1em">
-                <i class="el-icon-info"></i> {{ description }}
+              <el-col v-if="description.length" style="margin-top: 0.5em">
+                <i class="el-icon-info"> </i> {{ description }}
               </el-col>
             </el-row>
           </template>
@@ -60,6 +56,7 @@ export default {
   components: {},
   data() {
     return {
+      loading: {},
       query: undefined,
       tableData: [],
     };
@@ -84,7 +81,17 @@ export default {
     this.tableData = tableData;
   },
   methods: {
-    ...mapActions({ eventList: "eventList" }),
+    ...mapActions({ documentServe: "documentServe", eventList: "eventList" }),
+    async getDocument(file) {
+      this.loading[file] = true;
+
+      const blob = await this.documentServe(file);
+      if (blob) {
+        window.open(URL.createObjectURL(blob));
+      }
+
+      delete this.loading[file];
+    },
   },
 };
 </script>

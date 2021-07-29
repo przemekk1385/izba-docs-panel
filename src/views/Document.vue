@@ -33,9 +33,15 @@
             }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="Actions" width="120px">
+        <el-table-column fixed="right" label="Actions" width="140px">
           <template #default="{ row: { file } }">
-            <el-link :href="file" type="primary"> Download </el-link>
+            <el-button
+              icon="el-icon-download"
+              @click="getDocument(file)"
+              :loading="loading[file]"
+              size="small"
+              >Download</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -51,6 +57,7 @@ export default {
   components: {},
   data() {
     return {
+      loading: {},
       query: undefined,
       tableData: [],
       tagFilters: [],
@@ -79,6 +86,16 @@ export default {
   },
   methods: {
     ...mapActions({ documentList: "documentList", tagList: "tagList" }),
+    async getDocument(file) {
+      this.loading[file] = true;
+
+      const blob = await this.documentServe(file);
+      if (blob) {
+        window.open(URL.createObjectURL(blob));
+      }
+
+      delete this.loading[file];
+    },
     filterTag(value, { tags }) {
       return tags.indexOf(value) !== -1;
     },
