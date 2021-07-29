@@ -85,7 +85,11 @@ export default {
     this.tagFilters = tagList.map((tag) => ({ text: tag, value: tag }));
   },
   methods: {
-    ...mapActions({ documentList: "documentList", tagList: "tagList" }),
+    ...mapActions({
+      documentList: "documentList",
+      documentServe: "documentServe",
+      tagList: "tagList",
+    }),
     async getDocument(file) {
       this.loading[file] = true;
 
