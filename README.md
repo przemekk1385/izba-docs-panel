@@ -22,3 +22,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### Environment variables
+| Name | Extra info |
+|---|---|
+| VUE_APP_API_HOST | API host (see `store`) |
