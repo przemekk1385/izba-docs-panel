@@ -40,7 +40,10 @@ export default createStore({
     async documentServe({ commit, getters }, documentUrl) {
       try {
         const documentPromise = await axios.get(
-          documentUrl,
+          `${process.env.VUE_APP_API_HOST}/docs/${documentUrl
+            .split("/")
+            .slice(-1)
+            .pop()}`,
           Object.assign({}, getters.headers, {
             responseType: "blob",
           })
